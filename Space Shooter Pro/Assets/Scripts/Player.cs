@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     //optional value assigned
 
     [SerializeField]
-    private float _speed = 6f;
+    private float _speed = 10f;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _fireRate = 0.1f;
     private float _canFire = -1f;
+
+    [SerializeField]
+    private float _playerHP = 4;
 
     //===========================================================================
     // Start is called before the first frame update
@@ -39,7 +42,6 @@ public class Player : MonoBehaviour
     {
         // if i hit the space key
         // spawn gameObject
-        print(Time.time);
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
@@ -62,7 +64,7 @@ public class Player : MonoBehaviour
         /*transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);*/
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-        transform.Translate(direction * _speed * Time.deltaTime);
+        transform.Translate(_speed * Time.deltaTime * direction);
 
         //if player position on the y is greater than 0
         //y position = 0
@@ -92,6 +94,16 @@ public class Player : MonoBehaviour
         else if (transform.position.x < -10.5f)
         {
             transform.position = new Vector3(10.5f, transform.position.y);
+        }
+    }
+    public void PLayerHit()
+    {
+        _playerHP--;
+
+        //player death
+        if (_playerHP < 1)
+        {
+            Destroy(this.gameObject);
         }
     }
 }
