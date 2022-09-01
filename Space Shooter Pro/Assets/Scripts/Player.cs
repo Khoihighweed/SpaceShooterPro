@@ -1,5 +1,6 @@
 /*using System.Collections;
 using System.Collections.Generic;*/
+using System.Collections;
 using UnityEditor.Timeline;
 using UnityEngine;
 
@@ -13,8 +14,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speed = 10f;
 
+    //laser
     [SerializeField]
     private GameObject _laserPrefab;
+    [SerializeField]
+    private GameObject _tripleShotPrefab;
 
     [SerializeField]
     private float _fireRate = 0.1f;
@@ -24,6 +28,10 @@ public class Player : MonoBehaviour
     private float _playerHP = 3;
 
     private SpawnManager _spawnManager;
+
+    //variable for isTripleShotActive
+    [SerializeField]
+    private bool _isTripleShotActive = false;
 
     //===========================================================================
     // Start is called before the first frame update
@@ -52,8 +60,21 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             _canFire = Time.time + _fireRate;
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.01f, 0), Quaternion.identity);
+
+            if(_isTripleShotActive == true)
+            {
+                Instantiate(_tripleShotPrefab, transform.position + new Vector3(0, 0.47f, 0), Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.01f, 0), Quaternion.identity);
+            }
         }
+
+        //if space key press
+        //if tripleshotActive is true
+        //fire 3 lasers (triple shot prefab)
+        //else fire 1 laser
     }
     void CalculateMovement()
     {
@@ -114,5 +135,20 @@ public class Player : MonoBehaviour
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
+    }
+    public void TripleShotActive()
+    {
+        _isTripleShotActive = true;
+        //start the power down coroutine for triple shot
+        StartCoroutine(TripleShotDown());
+    }
+
+    //IEnumerator TripleShotPowerDownRoutine
+    //wait 5 second
+    //set the triple shot to false
+    IEnumerator TripleShotDown()
+    {
+        yield return new WaitForSeconds(3.0f);
+        _isTripleShotActive = false;
     }
 }
