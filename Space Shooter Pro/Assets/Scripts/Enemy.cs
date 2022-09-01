@@ -8,15 +8,11 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _speed = 4f;
 
-    private void Start()
-    {
-        transform.position = new Vector3(Random.Range(-9.22f,9.22f),7.65f);
-    }
     // Update is called once per frame
     void Update()
     {
         //move down at 4 meters per second
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        transform.Translate(_speed * Time.deltaTime * Vector3.down);
 
         //if bottom of screen
         //respawn at top
