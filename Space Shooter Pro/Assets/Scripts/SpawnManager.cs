@@ -35,7 +35,7 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnPlayer()
     {
-        Vector3 playerSpawnPos = new(0, 0, 0);
+        Vector3 playerSpawnPos = new(0, -3, 0);
         GameObject player = Instantiate(_player, playerSpawnPos, Quaternion.identity);
         player.transform.parent = this.transform;
     }
@@ -46,7 +46,7 @@ public class SpawnManager : MonoBehaviour
         //yield wait for 5 seconds
         while (_stopSpawning == false)
         {
-            Vector3 position = new Vector3(Random.Range(-9.22f, 9.22f), 7.65f);
+            Vector3 position = new Vector3(Random.Range(-9.22f, 9.22f), 9f);
             GameObject newEnemy = Instantiate(_enemyPrefab,position,Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(_spawnRate);
