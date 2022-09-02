@@ -9,12 +9,12 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemyPrefab;
 
     [SerializeField]
-    private GameObject _tripleShotPUPrefab;
-
-    [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
     private GameObject _powerUpContainer;
+
+    [SerializeField]
+    private GameObject[] powerups;
 
     [SerializeField]
     private float _enemySpawnRate = 2;
@@ -59,8 +59,12 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
             Vector3 position = new(Random.Range(-9.22f, 9.22f), 9f);
-            GameObject tripleShot = Instantiate(_tripleShotPUPrefab, position, Quaternion.identity);
-            tripleShot.transform.parent = _powerUpContainer.transform;
+
+            int randomPU = Random.Range(0, 3);
+
+            //pU = powerUp
+            GameObject pU = Instantiate(powerups[randomPU], position, Quaternion.identity);
+            pU.transform.parent = _powerUpContainer.transform;
 
             float _triplePUSpawnRate = Random.Range(7f,10f);
             yield return new WaitForSeconds(_triplePUSpawnRate);

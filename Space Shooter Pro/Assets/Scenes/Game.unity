@@ -464,11 +464,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 2653137690245481387, guid: 25db8d3fe2a7a8d47af4694efdb3af90, type: 3}
   _enemyPrefab: {fileID: 2228916456542333093, guid: 8894c22b5bfab5d40b2ae5538f63a42c, type: 3}
-  _tripleShotPUPrefab: {fileID: 5276448170911188352, guid: 2bec3c795f053344aa4e84db70e763d5, type: 3}
   _enemyContainer: {fileID: 1683425113}
   _powerUpContainer: {fileID: 252881841}
+  powerups:
+  - {fileID: 5276448170911188352, guid: 2bec3c795f053344aa4e84db70e763d5, type: 3}
+  - {fileID: 2334251322867539776, guid: e41a9a29914aa1241a3165133d911fcc, type: 3}
+  - {fileID: 9220317407826971305, guid: 2dd83789d8cf7b446bda5e17db7c03ab, type: 3}
   _enemySpawnRate: 2
-  _triplePUSpawnRate: 7
 --- !u!1 &1683425113
 GameObject:
   m_ObjectHideFlags: 0

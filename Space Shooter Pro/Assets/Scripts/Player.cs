@@ -12,7 +12,8 @@ public class Player : MonoBehaviour
     //optional value assigned
 
     [SerializeField]
-    private float _speed = 10f;
+    private float _speed = 15f;
+    private float _speedMultiplier = 2;
 
     //laser
     [SerializeField]
@@ -30,8 +31,11 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
 
     //variable for isTripleShotActive
-    [SerializeField]
     private bool _isTripleShotActive = false;
+    private bool _isShieldActive = false;
+
+    [SerializeField]
+    private GameObject _shieldVisualizer;
 
     //===========================================================================
     // Start is called before the first frame update
@@ -91,8 +95,8 @@ public class Player : MonoBehaviour
         /*transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);*/
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-        transform.Translate(_speed * Time.deltaTime * direction);
 
+        transform.Translate(_speed * Time.deltaTime * direction);
         //if player position on the y is greater than 0
         //y position = 0
         //else if position on the y is less than -3.8f
@@ -125,6 +129,18 @@ public class Player : MonoBehaviour
     }
     public void PLayerHit()
     {
+        //if shields is active
+        //do nothing...
+        //deactive shields
+        //return;
+        if (_isShieldActive == true)
+        {
+            _shieldVisualizer.SetActive(false);
+            _isShieldActive = false;
+            return;
+        }
+
+
         _playerHP--;
 
         //if player death
@@ -148,7 +164,27 @@ public class Player : MonoBehaviour
     //set the triple shot to false
     IEnumerator TripleShotDown()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(4.0f);
         _isTripleShotActive = false;
+    }
+    public void SpeedUp()
+    {
+        _speed *= _speedMultiplier;
+        /*Debug.LogError(_speed);*/
+        StartCoroutine(SpeedBackToNormal());
+    }
+
+    IEnumerator SpeedBackToNormal()
+    {
+        yield return new WaitForSeconds(4.0f);
+        _speed /= _speedMultiplier;
+        /*Debug.LogError(_speed);*/
+
+    }
+
+    public void ShieldActive()
+    {
+        _isShieldActive = true;
+        _shieldVisualizer.SetActive(true);
     }
 }
