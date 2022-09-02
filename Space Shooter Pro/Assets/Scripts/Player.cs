@@ -3,6 +3,7 @@ using System.Collections.Generic;*/
 using System.Collections;
 using UnityEditor.Timeline;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour
     private float _canFire = -1f;
 
     [SerializeField]
-    private float _playerHP = 3;
+    private int _playerHP = 3;
 
     private SpawnManager _spawnManager;
 
@@ -37,15 +38,27 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _shieldVisualizer;
 
+    //UI related
+    [SerializeField]
+    private int _score;
+
+    private UIManager _uiManager;
+
     //===========================================================================
     // Start is called before the first frame update
     void Start()
     {  
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL");
+        }
+
+        if (_uiManager == null)
+        {
+            Debug.LogError("The UI Manager is Null.");
         }
     }
 
@@ -142,6 +155,7 @@ public class Player : MonoBehaviour
 
 
         _playerHP--;
+        _uiManager.UpdateLives(_playerHP);
 
         //if player death
         if (_playerHP < 1)
@@ -149,6 +163,7 @@ public class Player : MonoBehaviour
             //Communicate with Spawn Manager
             //Let them know to stop Spawing
             _spawnManager.OnPlayerDeath();
+            
             Destroy(this.gameObject);
         }
     }
@@ -186,5 +201,12 @@ public class Player : MonoBehaviour
     {
         _isShieldActive = true;
         _shieldVisualizer.SetActive(true);
+    }
+    
+    public void AddScore(int points)
+    {
+        _score += points;
+        _uiManager.UpdateScore(_score);
+        //communicate with the UI to update the score!
     }
 }
