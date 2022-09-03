@@ -2,6 +2,7 @@
 using System.Collections.Generic;*/
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -18,6 +19,8 @@ public class UIManager : MonoBehaviour
     private Text _gameOverText;
     [SerializeField]
     private Text _RestartLevelText;
+    [SerializeField]
+    private Button _gameMenuButton;
 
     [SerializeField]
     private GameManager _gameManager;
@@ -60,6 +63,7 @@ public class UIManager : MonoBehaviour
         _gameManager.GameOver();
         _gameOverText.gameObject.SetActive(true);
         _RestartLevelText.gameObject.SetActive(true);
+        _gameMenuButton.gameObject.SetActive(true);
         StartCoroutine(GameOverFlicker());
     }
 
@@ -73,4 +77,9 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene(0);
+    }    
 }
