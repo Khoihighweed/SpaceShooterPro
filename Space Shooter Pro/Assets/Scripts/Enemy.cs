@@ -9,9 +9,13 @@ public class Enemy : MonoBehaviour
 
     private Player _player;
 
+    //handle to animator component
+
     private void Start()
     {
         _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+        //null check player
+        //assign the component
     }
 
     // Update is called once per frame
@@ -47,6 +51,8 @@ public class Enemy : MonoBehaviour
             {
                 player.PLayerHit();
             }
+
+            //trigger anim
             Destroy(this.gameObject);
         }
 
@@ -65,7 +71,7 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(10);
             }
 
-            
+            //trigger anim
             Destroy(this.gameObject);
         }
     }
