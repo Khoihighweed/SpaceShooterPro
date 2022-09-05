@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -26,10 +27,14 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         SpawnPlayer();
+        
+    }
+
+    public void StartSpawning()
+    {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnTripleShotRoutine());
     }
-
     //spawn game object every 5 seconds
     //Create a coroutine of type IEnumerator -- yield Events
     //while loop
@@ -42,6 +47,7 @@ public class SpawnManager : MonoBehaviour
     }
     IEnumerator SpawnEnemyRoutine()
     {
+        yield return new WaitForSeconds(3.0f);
         //while loop (infinite loop)
         //Instantiate enemy prefab
         //yield wait for 5 seconds
@@ -56,6 +62,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnTripleShotRoutine()
     {
+        yield return new WaitForSeconds(3.0f);
         while (_stopSpawning == false)
         {
             Vector3 position = new(Random.Range(-9.22f, 9.22f), 9f);

@@ -5,17 +5,23 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 4f;
+    private float _speed = 9f;
 
     private Player _player;
 
     //handle to animator component
+    private Animator _enemyDeathAnimator;
 
     private void Start()
     {
         _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
         //null check player
         //assign the component
+        _enemyDeathAnimator = GetComponent<Animator>();
+        if(_enemyDeathAnimator == null)
+        {
+            Debug.LogError("animator get component not working");
+        }
     }
 
     // Update is called once per frame
@@ -53,7 +59,9 @@ public class Enemy : MonoBehaviour
             }
 
             //trigger anim
-            Destroy(this.gameObject);
+            _enemyDeathAnimator.SetTrigger("OnEnemyDeath");
+            _speed = 5;
+            Destroy(this.gameObject, 0.5f);
         }
 
         //if other is Laser
@@ -72,7 +80,9 @@ public class Enemy : MonoBehaviour
             }
 
             //trigger anim
-            Destroy(this.gameObject);
+            _enemyDeathAnimator.SetTrigger("OnEnemyDeath");
+            _speed = 5;
+            Destroy(this.gameObject, 0.5f);
         }
     }
 }

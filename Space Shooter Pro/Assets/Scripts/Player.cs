@@ -1,6 +1,7 @@
 /*using System.Collections;
 using System.Collections.Generic;*/
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private float _speed = 15f;
-    private float _speedMultiplier = 2;
+    private float _speedMultiplier = 1.5f;
 
     //laser
     [SerializeField]
@@ -42,6 +43,9 @@ public class Player : MonoBehaviour
     private int _score;
 
     private UIManager _uiManager;
+
+    [SerializeField]
+    private GameObject _rightEngine, _leftEngine;
 
     //===========================================================================
     // Start is called before the first frame update
@@ -154,6 +158,15 @@ public class Player : MonoBehaviour
 
 
         _playerHP--;
+        if (_playerHP == 2)
+        {
+            _rightEngine.SetActive(true);
+        }
+        else if(_playerHP == 1)
+        {
+            _leftEngine.SetActive(true);
+        }
+
         _uiManager.UpdateLives(_playerHP);
 
         //if player death
