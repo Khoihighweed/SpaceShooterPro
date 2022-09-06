@@ -47,12 +47,19 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _rightEngine, _leftEngine;
 
+    //variable to store audio clip
+    [SerializeField]
+    private AudioClip _laserAudioClip;
+
+    private AudioSource _audioSource;
+
     //===========================================================================
     // Start is called before the first frame update
     void Start()
     {  
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _audioSource = GetComponent<AudioSource>();
 
         if (_spawnManager == null)
         {
@@ -62,6 +69,15 @@ public class Player : MonoBehaviour
         if (_uiManager == null)
         {
             Debug.LogError("The UI Manager is Null.");
+        }
+
+        if(_audioSource == null)
+        {
+            Debug.LogError("AudioSource on the player is NULL.");
+        }
+        else
+        {
+            _audioSource.clip = _laserAudioClip;
         }
     }
 
@@ -79,6 +95,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
+            _audioSource.Play();
             _canFire = Time.time + _fireRate;
 
             if(_isTripleShotActive == true)
@@ -90,11 +107,10 @@ public class Player : MonoBehaviour
                 Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.01f, 0), Quaternion.identity);
             }
         }
+        
 
-        //if space key press
-        //if tripleshotActive is true
-        //fire 3 lasers (triple shot prefab)
-        //else fire 1 laser
+        //play audio clip
+        /*_laserSound.Play();*/
     }
     void CalculateMovement()
     {
