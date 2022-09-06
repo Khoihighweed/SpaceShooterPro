@@ -15,6 +15,8 @@ public class Powerup : MonoBehaviour
     [SerializeField]
     private int _powerupID;
 
+    [SerializeField]
+    private AudioClip _audioClip;
 
     // Update is called once per frame
     void Update()
@@ -36,6 +38,7 @@ public class Powerup : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            AudioSource.PlayClipAtPoint(_audioClip, transform.position);
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
             {

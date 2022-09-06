@@ -47,9 +47,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _rightEngine, _leftEngine;
 
+    [SerializeField]
+    private GameObject _thruster;
+
     //variable to store audio clip
     [SerializeField]
     private AudioClip _laserAudioClip;
+
+    [SerializeField]
+    private AudioClip _playerDeathSoundClip;
 
     private AudioSource _audioSource;
 
@@ -107,10 +113,6 @@ public class Player : MonoBehaviour
                 Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.01f, 0), Quaternion.identity);
             }
         }
-        
-
-        //play audio clip
-        /*_laserSound.Play();*/
     }
     void CalculateMovement()
     {
@@ -188,11 +190,20 @@ public class Player : MonoBehaviour
         //if player death
         if (_playerHP < 1)
         {
+            _audioSource.clip = _playerDeathSoundClip;
+
+            _thruster.SetActive(false);
+            SpriteRenderer _spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+            _spriteRenderer.enabled = false;
+
             //Communicate with Spawn Manager
             //Let them know to stop Spawing
             _spawnManager.OnPlayerDeath();
-            
-            Destroy(this.gameObject);
+            _rightEngine.SetActive(false);
+            _leftEngine.SetActive(false);
+
+            _audioSource.Play();
+            Destroy(this.gameObject,2f);
         }
     }
     public void TripleShotActive()

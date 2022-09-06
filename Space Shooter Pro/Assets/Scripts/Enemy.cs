@@ -12,9 +12,19 @@ public class Enemy : MonoBehaviour
     //handle to animator component
     private Animator _enemyDeathAnimator;
 
+    [SerializeField]
+    private AudioClip _audioClip;
+
+    private AudioSource _audioSource;
     private void Start()
     {
         _player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+        if(!TryGetComponent<AudioSource>(out _audioSource))
+        {
+            Debug.Log("cant get enemy audio source");
+        }
+        _audioSource.clip = _audioClip;
+
         //null check player
         //assign the component
         _enemyDeathAnimator = GetComponent<Animator>();
@@ -61,6 +71,8 @@ public class Enemy : MonoBehaviour
             //trigger anim
             _enemyDeathAnimator.SetTrigger("OnEnemyDeath");
             _speed = 5;
+
+            _audioSource.Play();
             Destroy(this.gameObject, 0.5f);
         }
 
@@ -82,6 +94,8 @@ public class Enemy : MonoBehaviour
             //trigger anim
             _enemyDeathAnimator.SetTrigger("OnEnemyDeath");
             _speed = 5;
+
+            _audioSource.Play();
             Destroy(this.gameObject, 0.5f);
         }
     }
